@@ -35,7 +35,7 @@ public class Store {
                 continue;
             }
             choice = scanner.nextInt();
-            scanner.nextLine();                     // clear newline
+            scanner.nextLine();                    // clear newline
 
             switch (choice) {
                 case 1 -> displayProducts(inventory, cart, scanner);
