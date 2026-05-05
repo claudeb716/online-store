@@ -1,6 +1,9 @@
 
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -58,7 +61,22 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+        //Input empty String and while loop to run each line of string if NOT null.
+        //Add buffered reader to read file
+        String line; //empty string to help with loop
+        try {BufferedReader br = new BufferedReader(new FileReader(fileName)); //Read file
 
+            while ((line = br.readLine()) != null) {  //Loop reading each line of string in file until it's reaches null
+                String[] parts = line.split("\\|"); // Split data on file with "|" into an array
+                String id = parts[0].trim();//Save as a String and trim extra white space
+                String name = parts[1].trim(); // Save as a String and trim extra white space
+                double price = Double.parseDouble(parts[2]); // Parse String into a Double
+                inventory.add(new Product(id, name, price)); // Add new Product(parts) to inventory ArrayList
+            }
+            br.close(); // Close Reader
+        } catch (IOException e) { // error message
+            System.err.println("File Not Found " + e.getMessage());
+        }
     }
 
     /**
