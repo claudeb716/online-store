@@ -5,12 +5,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
  * Starter code for the Online Store workshop.
  * Students will complete the TODO sections to make the program work.
  */
+
 public class Store {
 
     public static void main(String[] args) {
@@ -61,17 +64,19 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+
         //Input empty String and while loop to run each line of string if NOT null.
         //Add buffered reader to read file
         String line; //empty string to help with loop
         try {BufferedReader br = new BufferedReader(new FileReader(fileName)); //Read file
 
             while ((line = br.readLine()) != null) {  //Loop reading each line of string in file until it's reaches null
-                String[] parts = line.split("\\|"); // Split data on file with "|" into an array
+                String[] parts = line.split("\\|"); // Split data on file with "|"
                 String id = parts[0].trim();//Save as a String and trim extra white space
                 String name = parts[1].trim(); // Save as a String and trim extra white space
                 double price = Double.parseDouble(parts[2]); // Parse String into a Double
-                inventory.add(new Product(id, name, price)); // Add new Product(parts) to inventory ArrayList
+                Product product = new Product(id,name,price);// Save Data to Class
+                inventory.add(product); // Add new Product(parts) to inventory ArrayList
             }
             br.close(); // Close Reader
         } catch (IOException e) { // error message
@@ -83,12 +88,23 @@ public class Store {
      * Displays all products and lets the user add one to the cart.
      * Typing X returns to the main menu.
      */
-    public static void displayProducts(ArrayList<Product> inventory,
-                                       ArrayList<Product> cart,
-                                       Scanner scanner) {
+    public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        //Loop
+        for (Product p : inventory){ //Show each product
+            System.out.printf(p.getId() + p.getName() + p.getPrice());
+
+        }
+//        int i = 0;
+//        do {
+//            System.out.println(inventory);
+//            System.out.println("Add Products(ID) you want to your cart: ");
+//        }while (i < inventory.size());
+//        String matchID = scanner.nextLine();
+        if (matchID){}
     }
+}
 
     /**
      * Shows the contents of the cart, calculates the total,
@@ -122,6 +138,9 @@ public class Store {
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
+        for (Product p : inventory){
+            if (id.equals(.)
+        }
         return null;
     }
 }
