@@ -53,18 +53,7 @@ public class Store {
         scanner.close();
     }
 
-    /**
-     * Reads product data from a file and populates the inventory list.
-     * File format (pipe-delimited):
-     * id|name|price
-     * <p>
-     * Example line:
-     * A17|Wireless Mouse|19.99
-     */
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
-        // TODO: read each line, split on "|",
-        //       create a Product object, and add it to the inventory list
-
         //Input empty String and while loop to run each line of string if NOT null.
         //Add buffered reader to read file
         String line; //empty string to help with loop
@@ -83,42 +72,27 @@ public class Store {
             System.err.println("File Not Found " + e.getMessage());
         }
     }
-
-    /**
-     * Displays all products and lets the user add one to the cart.
-     * Typing X returns to the main menu.
-     */
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
-        // TODO: show each product (id, name, price),
-        //       prompt for an id, find that product, add to cart
-        //Loop
         for (Product p : inventory){ //loop each product
             System.out.printf(p.getId() + p.getName() + p.getPrice()); // display products
-            String idMatch = scanner.nextLine(); // save user input to string
-            Product foundProduct = (findProductById(idMatch,inventory)); //create matching product from findProduct
-            if (foundProduct != null){ // if conditon check if not empty
-            cart.add(foundProduct); // add to cart list
-            inventory.remove(foundProduct); // remove from inventory
-                System.out.println(foundProduct.getName() + " Added to cart! "); // print message it was added to cart
-            }else{
-                System.out.println("Entered ID doesn't match Product ID");
-            }
         }
         System.out.println("Enter Product(ID) to Add to cart:");
+        String idMatch = scanner.nextLine(); // save user input to string
+        Product foundProduct = (findProductById(idMatch,inventory)); //create matching product from findProduct
+        if (foundProduct != null){ // if conditon check if not empty
+            cart.add(foundProduct); // add to cart list
+            inventory.remove(foundProduct); // remove from inventory
+            System.out.println(foundProduct.getName() + " Added to cart! "); // print message it was added to cart
+        }else{
+            System.out.println("Entered ID doesn't match Product ID");
+        }
+
+
     }
 
 
-    /**
-     * Shows the contents of the cart, calculates the total,
-     * and offers the option to check out.
-     */
-    public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
-        // TODO:
-        //   • list each product in the cart
-        //   • compute the total cost
-        //   • ask the user whether to check out (C) or return (X)
-        //   • if C, call checkOut(cart, totalAmount, scanner)
 
+    public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
         double total = 0.0; // initalize
         for (Product p : cart){ // loop Products in cart
             System.out.println(p.getId()+p.getName()+p.getPrice());// display cart products
@@ -135,19 +109,7 @@ public class Store {
         }
 
     }
-
-    /**
-     * Handles the checkout process:
-     * 1. Confirm that the user wants to buy.
-     * 2. Accept payment and calculate change.
-     * 3. Display a simple receipt.
-     * 4. Clear the cart.
-     */
-    public static void checkOut(ArrayList<Product> cart,
-                                double totalAmount,
-                                Scanner scanner) {
-        // TODO: implement steps listed above
-
+    public static void checkOut(ArrayList<Product> cart, double totalAmount, Scanner scanner) {
         System.out.println("are you sure your ready to checkout? Yes(1) or No(2)");
         double choice = scanner.nextDouble(); // save input of choice
         if (choice == 2){ //if condition equal to 2 and return
@@ -162,12 +124,6 @@ public class Store {
             cart.clear(); // clear cart
         }
     }
-
-    /**
-     * Searches a list for a product by its id.
-     *
-     * @return the matching Product, or null if not found
-     */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
 
