@@ -92,10 +92,19 @@ public class Store {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
         //Loop
-        for (Product p : inventory){ //Show each product
-            System.out.printf(p.getId() + p.getName() + p.getPrice());
-
+        for (Product p : inventory){ //loop each product
+            System.out.printf(p.getId() + p.getName() + p.getPrice()); // display products
+            String idMatch = scanner.nextLine(); // save user input to string
+            Product foundProduct = (findProductById(idMatch,inventory)); //create matching product from findProduct
+            if (foundProduct != null){ // if conditon check if not empty
+            cart.add(foundProduct); // add to cart list
+            inventory.remove(foundProduct); // remove from inventory
+                System.out.println(foundProduct.getName() + " Added to cart! "); // print message it was added to cart
+            }else{
+                System.out.println("Entered ID doesn't match Product ID");
+            }
         }
+        System.out.println("Enter Product(ID) to Add to cart:");
     }
 
 
@@ -131,16 +140,15 @@ public class Store {
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
-        //System.out.println("Enter Product ID:");
-        String matchedId;
-        for (Product p : inventory){
-            if (p.getId().equalsIgnoreCase(id)){
-                matchedId = p.getId();
-                System.out.println(matchedId);
-                break;
+
+        for (Product p : inventory){ //loop through products
+            Product matchedId; //value holder
+            if (p.getId().equalsIgnoreCase(id)){ // if product id match String id
+                matchedId = new Product(p.getId(), p.getId(), p.getPrice()); // save product that matches
+                return matchedId; // return matching product
             }
-        }
-        return null;
+        }return null;
+
     }
 
 }
