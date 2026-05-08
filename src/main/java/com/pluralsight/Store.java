@@ -1,19 +1,17 @@
 
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Store {
+    // Create lists for inventory and the shopping cart
+    static ArrayList<Product> inventory = new ArrayList<>();
+    static  ArrayList<Product> cart = new ArrayList<>();
 
     public static void main(String[] args) {
 
-        // Create lists for inventory and the shopping cart
-        ArrayList<Product> inventory = new ArrayList<>();
-        ArrayList<Product> cart = new ArrayList<>();
 
         // Load inventory from the data file (pipe-delimited: id|name|price)
         loadInventory("products.csv", inventory);
@@ -67,14 +65,14 @@ public class Store {
     }
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         for (Product p : inventory){ //loop each product
-            System.out.printf(p.getId() + p.getName() + p.getPrice()); // display products
+            System.out.printf("%5s %5s %5s%n",p.getId(),p.getName(),p.getPrice());// display products
         }
         System.out.println("Enter Product(ID) to Add to cart:");
         String idMatch = scanner.nextLine(); // save user input to string
         Product foundProduct = (findProductById(idMatch,inventory)); //create matching product from findProduct
         if (foundProduct != null){ // if condition check is not empty
             cart.add(foundProduct); // add to cart list
-            inventory.remove(foundProduct); // remove from inventory
+          //  inventory.remove(foundProduct); // remove from inventory
             System.out.println(foundProduct.getName() + " Added to cart! "); // print message it was added to cart
         }else{
             System.out.println("Entered ID doesn't match Product ID");
@@ -87,11 +85,14 @@ public class Store {
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
         double total = 0.0; // initialize
+
         for (Product p : cart){ // loop Products in cart
-            System.out.println(p.getId()+p.getName()+p.getPrice());// display cart products
-            total += p.getPrice();// save price total
-            System.out.println("Total of Cart: $" + total);// display total
+            System.out.printf("%s %s %s%n",p.getId(),p.getName(),p.getPrice());// display cart products
+            total += p.getPrice();// save price total1
         }
+
+        System.out.println("Total of Cart: $" + total);// display total
+
         System.out.println("Click (C)Checkout or (X)Return");
         String choice = scanner.nextLine(); //save user choice
         if (choice.equalsIgnoreCase("X")){ // if condition is user input match String
@@ -110,25 +111,64 @@ public class Store {
         }
         if (choice == 1){ //if condition equal to 1
             System.out.println("Add payment(30.00)");
-            double payment = scanner.nextInt();// payment input
+            double payment = scanner.nextDouble();// payment input
             scanner.nextLine(); // catch next line
             double change = payment - totalAmount; // subtract payment from cart total
-            System.out.println("Your Change: $" + change); // display results
+            System.out.printf("%s $%.2f%n", "Your change is:", change); // display results
+
+            //we should be calling out updateInventory method
+            // before me clear the cart
+            updateInventory(cart);
+
             cart.clear(); // clear cart
         }
     }
+
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
 
         for (Product p : inventory){ //loop through products
             Product matchedId; //value holder
             if (p.getId().equalsIgnoreCase(id)){ // if product id match String id
-                matchedId = new Product(p.getId(), p.getId(), p.getPrice()); // save product that matches
+                matchedId = new Product(p.getId(), p.getName(), p.getPrice()); // save product that matches
                 return matchedId; // return matching product
             }
-        }return null;
+        }
+        return null;
 
     }
+
+    //updating the inventory to with the current products
+    //this method should be called only once a produc has been sold
+    //aka in the checkout method after payment
+    public static void updateInventory(ArrayList<Product> cart){
+        //we want to go through the cart and remove all the items in the cart
+        //from the inventory arraylist we have
+
+
+
+        for(Product product: cart){
+
+            if(inventory.contains(product)) {
+                inventory.remove(product);
+                System.out.printf("%s %s%n", product.getName(), "successfully purchased");
+            }
+
+        }
+
+        //all of the cart items should no longer be in the inventory array
+        //then we want to write over the inventory.csv file to update the inventory with what's left
+
+        try( BufferedWriter bw = new BufferedWriter(new FileWriter("products.csv"));){
+
+            for(Product prod: inventory){
+                bw.write(prod.toString() + "\n");
+            }
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
 
 }
 
