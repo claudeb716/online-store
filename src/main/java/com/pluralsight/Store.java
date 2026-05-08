@@ -5,14 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Scanner;
-
-/**
- * Starter code for the Online Store workshop.
- * Students will complete the TODO sections to make the program work.
- */
 
 public class Store {
 
@@ -79,7 +72,7 @@ public class Store {
         System.out.println("Enter Product(ID) to Add to cart:");
         String idMatch = scanner.nextLine(); // save user input to string
         Product foundProduct = (findProductById(idMatch,inventory)); //create matching product from findProduct
-        if (foundProduct != null){ // if conditon check if not empty
+        if (foundProduct != null){ // if condition check is not empty
             cart.add(foundProduct); // add to cart list
             inventory.remove(foundProduct); // remove from inventory
             System.out.println(foundProduct.getName() + " Added to cart! "); // print message it was added to cart
@@ -93,7 +86,7 @@ public class Store {
 
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
-        double total = 0.0; // initalize
+        double total = 0.0; // initialize
         for (Product p : cart){ // loop Products in cart
             System.out.println(p.getId()+p.getName()+p.getPrice());// display cart products
             total += p.getPrice();// save price total
