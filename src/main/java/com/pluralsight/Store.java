@@ -118,6 +118,24 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+
+        double total = 0.0; // initalize
+        for (Product p : cart){ // loop Products in cart
+            System.out.println(p.getId()+p.getName()+p.getPrice());// display cart products
+            total += p.getPrice();// save price total
+            System.out.println("Total of Cart: $" + total);// display total
+        }
+        System.out.println("Click (C)Checkout or (X)Return");
+        String choice = scanner.nextLine(); //save user choice
+        if (choice.equalsIgnoreCase("C")){ // if conditon is user input match String
+            checkOut(cart,total,scanner); // call checkOut method
+        }
+            if (choice.equalsIgnoreCase("X")){ // if conditon is user input match String
+            return;
+        }else {
+                System.out.println("Invalid choice!");
+            }
+
     }
 
     /**
