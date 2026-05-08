@@ -127,14 +127,12 @@ public class Store {
         }
         System.out.println("Click (C)Checkout or (X)Return");
         String choice = scanner.nextLine(); //save user choice
-        if (choice.equalsIgnoreCase("C")){ // if conditon is user input match String
+        if (choice.equalsIgnoreCase("X")){ // if condition is user input match String
+            return;
+        }
+        if (choice.equalsIgnoreCase("C")){ // if condition is user input match String
             checkOut(cart,total,scanner); // call checkOut method
         }
-            if (choice.equalsIgnoreCase("X")){ // if conditon is user input match String
-            return;
-        }else {
-                System.out.println("Invalid choice!");
-            }
 
     }
 
@@ -149,6 +147,20 @@ public class Store {
                                 double totalAmount,
                                 Scanner scanner) {
         // TODO: implement steps listed above
+
+        System.out.println("are you sure your ready to checkout? Yes(1) or No(2)");
+        double choice = scanner.nextDouble(); // save input of choice
+        if (choice == 2){ //if condition equal to 2 and return
+            return;
+        }
+        if (choice == 1){ //if condition equal to 1
+            System.out.println("Add payment(30.00)");
+            double payment = scanner.nextInt();// payment input
+            scanner.nextLine(); // catch next line
+            double change = payment - totalAmount; // subtract payment from cart total
+            System.out.println("Your Change: $" + change); // display results
+            cart.clear(); // clear cart
+        }
     }
 
     /**
