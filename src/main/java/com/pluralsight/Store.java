@@ -96,15 +96,8 @@ public class Store {
             System.out.printf(p.getId() + p.getName() + p.getPrice());
 
         }
-//        int i = 0;
-//        do {
-//            System.out.println(inventory);
-//            System.out.println("Add Products(ID) you want to your cart: ");
-//        }while (i < inventory.size());
-//        String matchID = scanner.nextLine();
-        if (matchID){}
     }
-}
+
 
     /**
      * Shows the contents of the cart, calculates the total,
@@ -138,10 +131,17 @@ public class Store {
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
+        //System.out.println("Enter Product ID:");
+        String matchedId;
         for (Product p : inventory){
-            if (id.equals(.)
+            if (p.getId().equalsIgnoreCase(id)){
+                matchedId = p.getId();
+                System.out.println(matchedId);
+                break;
+            }
         }
         return null;
     }
+
 }
 
